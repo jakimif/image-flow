@@ -17,6 +17,7 @@ static constexpr const char* Folder = "folder";
 static constexpr const char* Filter = "filter";
 static constexpr const char* Width = "width";
 static constexpr const char* Height = "height";
+static constexpr const char* Amount = "amount";
 } // namespace Opts
 } // namespace Args
 
@@ -78,7 +79,7 @@ void validateArguments(const ArgumentParser& argParser) {
 		try {
 			width = argParser.getOptionAs<int>(Args::Opts::Width);
 			height = argParser.getOptionAs<int>(Args::Opts::Height);
-		} catch (const std::invalid_argument& exception) {
+		} catch (const std::invalid_argument&) {
 			throw std::invalid_argument("the value entered for width or height are not valid numbers.");
 		}
 
@@ -88,6 +89,25 @@ void validateArguments(const ArgumentParser& argParser) {
 
 		if (filter.empty()) {
 			throw std::invalid_argument("filter cannot be blank in resize mode.");
+		}
+	}
+
+	// validar scale mode
+	if (bScaleMode) {
+		float amount = 0.0f;
+
+		try {
+			amount = argParser.getOptionAs<float>(Args::Opts::Amount);
+		} catch (const std::invalid_argument&) {
+			throw std::invalid_argument("the value entered for quantity is not a valid number.");
+		}
+
+		if (amount <= 0.0f) {
+			throw std::invalid_argument("amount must be greater than zero.");
+		}
+
+		if (filter.empty()) {
+			throw std::invalid_argument("filter cannot be blank in scale mode.");
 		}
 	}
 }
@@ -104,6 +124,7 @@ int main(int argc, char* argv[]) {
 	argParser.registerOption(Args::Opts::Filter);
 	argParser.registerOption(Args::Opts::Width);
 	argParser.registerOption(Args::Opts::Height);
+	argParser.registerOption(Args::Opts::Amount);
 
 	argParser.parse(argc, argv);
 
