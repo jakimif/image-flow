@@ -15,7 +15,8 @@ static constexpr const char* Scale = "scale";
 namespace Opts {
 static constexpr const char* Folder = "folder";
 static constexpr const char* Filter = "filter";
-static constexpr const char* Amount = "amount";
+static constexpr const char* Width = "width";
+static constexpr const char* Height = "height";
 } // namespace Opts
 } // namespace Args
 
@@ -68,6 +69,27 @@ void validateArguments(const ArgumentParser& argParser) {
 			throw std::invalid_argument("the filter cannot contain: " + invalidCaracteres);
 		}
 	}
+
+	// validar o modo resize
+	if (bResizeMode) {
+		int width = 0;
+		int height = 0;
+
+		try {
+			width = argParser.getOptionAs<int>(Args::Opts::Width);
+			height = argParser.getOptionAs<int>(Args::Opts::Height);
+		} catch (const std::invalid_argument& exception) {
+			throw std::invalid_argument("the value entered for width or height are not valid numbers.");
+		}
+
+		if (width <= 0 || height <= 0) {
+			throw std::invalid_argument("width and height must be greater than zero.");
+		}
+
+		if (filter.empty()) {
+			throw std::invalid_argument("filter cannot be blank in resize mode.");
+		}
+	}
 }
 
 int main(int argc, char* argv[]) {
@@ -80,6 +102,8 @@ int main(int argc, char* argv[]) {
 
 	argParser.registerOption(Args::Opts::Folder);
 	argParser.registerOption(Args::Opts::Filter);
+	argParser.registerOption(Args::Opts::Width);
+	argParser.registerOption(Args::Opts::Height);
 
 	argParser.parse(argc, argv);
 
