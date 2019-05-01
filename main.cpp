@@ -18,8 +18,23 @@ static constexpr const char* Filter = "filter";
 static constexpr const char* Width = "width";
 static constexpr const char* Height = "height";
 static constexpr const char* Amount = "amount";
+static constexpr const char* Prefix = "prefix";
+static constexpr const char* Start = "start";
 } // namespace Opts
 } // namespace Args
+
+const std::string& getInvalidChars() {
+	static const std::string invalidCaracteres = "\\/*?\"<>|"; // \/*?"<>|
+	return invalidCaracteres;
+}
+
+bool hasInvalidChars(const std::string& str) {
+	if (str.find_first_of(getInvalidChars()) != std::string::npos) {
+		return true;
+	}
+
+	return false;
+}
 
 void validateArguments(const ArgumentParser& argParser) {
 	// verificar se somente um modo (flag) está ativo
@@ -64,14 +79,10 @@ void validateArguments(const ArgumentParser& argParser) {
 
 	// validar se o filtro é uma string valida
 	const std::string filter = argParser.getOptionAs<std::string>(Args::Opts::Filter);
-	if (!filter.empty()) {
-		std::string invalidCaracteres = "\\/*?\"<>|"; // \/*?"<>|
-		if (filter.find_first_of(invalidCaracteres) != std::string::npos) {
-			throw std::invalid_argument("the filter cannot contain: " + invalidCaracteres);
-		}
+	if (!filter.empty() && hasInvalidChars(filter)) {
+		throw std::invalid_argument("the filter cannot contain: " + getInvalidChars());
 	}
 
-	// validar o modo resize
 	if (bResizeMode) {
 		int width = 0;
 		int height = 0;
@@ -92,7 +103,6 @@ void validateArguments(const ArgumentParser& argParser) {
 		}
 	}
 
-	// validar scale mode
 	if (bScaleMode) {
 		float amount = 0.0f;
 
@@ -110,6 +120,29 @@ void validateArguments(const ArgumentParser& argParser) {
 			throw std::invalid_argument("filter cannot be blank in scale mode.");
 		}
 	}
+
+	if (bRenameMode) {
+		std::string prefix = argParser.getOptionAs<std::string>(Args::Opts::Prefix);
+		int start = -1;
+
+		try {
+			start = argParser.getOptionAs<int>(Args::Opts::Start);
+		} catch (const std::invalid_argument&) {
+			throw std::invalid_argument("the value entered for start is not a valid number.");
+		}
+
+		if (prefix.empty()) {
+			throw std::invalid_argument("prefix needs to be informed.");
+		}
+
+		if (hasInvalidChars(prefix)) {
+			throw std::invalid_argument("the prefix cannot contain: " + getInvalidChars());
+		}
+
+		if (start < 0) {
+			throw std::invalid_argument("start needs to be greater than zero.");
+		}
+	}
 }
 
 int main(int argc, char* argv[]) {
@@ -125,6 +158,8 @@ int main(int argc, char* argv[]) {
 	argParser.registerOption(Args::Opts::Width);
 	argParser.registerOption(Args::Opts::Height);
 	argParser.registerOption(Args::Opts::Amount);
+	argParser.registerOption(Args::Opts::Prefix);
+	argParser.registerOption(Args::Opts::Start);
 
 	argParser.parse(argc, argv);
 
