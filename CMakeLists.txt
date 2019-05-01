@@ -4,6 +4,10 @@ project(ImageBatch VERSION 1.0)
 # set(CMAKE_CXX_STANDARD 14)
 # set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-add_definitions(-std=c++11)
+add_definitions(-std=c++17)
+
 
 add_executable(ImageBatch main.cpp utils.cpp argumentParser.cpp)
+
+set_target_properties(ImageBatch PROPERTIES CXX_STANDARD 17)
+
