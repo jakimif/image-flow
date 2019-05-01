@@ -2,12 +2,14 @@
 
 #include <array>
 #include <filesystem>
+#include <fstream>
 #include <iomanip>
 #include <iostream>
 #include <set>
 
 namespace Args {
 namespace Flags {
+static constexpr const char* Help = "help";
 static constexpr const char* Rename = "rename";
 static constexpr const char* Convert = "convert";
 static constexpr const char* Resize = "resize";
@@ -42,12 +44,14 @@ bool hasInvalidChars(const std::string& str) {
 void validateArguments(const ArgumentParser& argParser) {
 	// verificar se somente um modo (flag) está ativo
 	// verificar se o usuário não esta passando varias flags
+
+	const bool bHelpMode = argParser.getFlag(Args::Flags::Help);
 	const bool bRenameMode = argParser.getFlag(Args::Flags::Rename);
 	const bool bConvertMode = argParser.getFlag(Args::Flags::Convert);
 	const bool bResizeMode = argParser.getFlag(Args::Flags::Resize);
 	const bool bScaleMode = argParser.getFlag(Args::Flags::Scale);
 
-	const std::array<bool, 4> modes = {bRenameMode, bConvertMode, bResizeMode, bScaleMode};
+	const std::array<bool, 5> modes = {bHelpMode, bRenameMode, bConvertMode, bResizeMode, bScaleMode};
 	const std::ptrdiff_t numActiveModes = std::count(std::begin(modes), std::end(modes), true);
 
 	std::cout << std::boolalpha << "Rename: " << argParser.getFlag(Args::Flags::Rename) << "\n";
@@ -57,6 +61,28 @@ void validateArguments(const ArgumentParser& argParser) {
 
 	if (numActiveModes != 1) {
 		throw std::invalid_argument("only one mode can be active.");
+	}
+
+	if (bHelpMode) {
+		std::filesystem::path filePath("./help.txt");
+
+		if (std::filesystem::exists(filePath)) {
+			std::ifstream inputFile(filePath);
+			if (!inputFile.is_open()) {
+				std::cout << "Não foi possível abrir o arquivo." << std::endl;
+				return;
+			}
+
+			std::string line;
+			while (std::getline(inputFile, line)) {
+				std::cout << line << std::endl;
+			}
+			inputFile.close();
+		} else {
+			std::cout << "O arquivo não existe." << std::endl;
+			return;
+		}
+		return;
 	}
 
 	// verificar se existem apenas 1 modo, utilizando OR Exclusivo
@@ -175,6 +201,7 @@ void validateArguments(const ArgumentParser& argParser) {
 int main(int argc, char* argv[]) {
 	ArgumentParser argParser;
 
+	argParser.registerFlag(Args::Flags::Help);
 	argParser.registerFlag(Args::Flags::Rename);
 	argParser.registerFlag(Args::Flags::Convert);
 	argParser.registerFlag(Args::Flags::Resize);
