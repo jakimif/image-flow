@@ -4,6 +4,7 @@
 #include <filesystem>
 #include <iomanip>
 #include <iostream>
+#include <set>
 
 namespace Args {
 namespace Flags {
@@ -20,6 +21,8 @@ static constexpr const char* Height = "height";
 static constexpr const char* Amount = "amount";
 static constexpr const char* Prefix = "prefix";
 static constexpr const char* Start = "start";
+static constexpr const char* From = "from";
+static constexpr const char* To = "to";
 } // namespace Opts
 } // namespace Args
 
@@ -44,7 +47,7 @@ void validateArguments(const ArgumentParser& argParser) {
 	const bool bResizeMode = argParser.getFlag(Args::Flags::Resize);
 	const bool bScaleMode = argParser.getFlag(Args::Flags::Scale);
 
-	const std::vector<bool> modes = {bRenameMode, bConvertMode, bResizeMode, bScaleMode};
+	const std::array<bool, 4> modes = {bRenameMode, bConvertMode, bResizeMode, bScaleMode};
 	const std::ptrdiff_t numActiveModes = std::count(std::begin(modes), std::end(modes), true);
 
 	std::cout << std::boolalpha << "Rename: " << argParser.getFlag(Args::Flags::Rename) << "\n";
@@ -143,6 +146,30 @@ void validateArguments(const ArgumentParser& argParser) {
 			throw std::invalid_argument("start needs to be greater than zero.");
 		}
 	}
+
+	if (bConvertMode) {
+		const std::string from = argParser.getOptionAs<std::string>(Args::Opts::From);
+		const std::string to = argParser.getOptionAs<std::string>(Args::Opts::To);
+		const std::set<std::string> convertOptions = {"jpg", "png"};
+
+		auto it = convertOptions.find(from);
+		const bool bIsFromValid = it != convertOptions.end();
+
+		it = convertOptions.find(to);
+		const bool bIsToValid = it != convertOptions.end();
+
+		if (!bIsFromValid || !bIsToValid) {
+			throw std::invalid_argument("from and to must be jpeg or png.");
+		}
+
+		if (from == to) {
+			throw std::invalid_argument("from and to must be different.");
+		}
+
+		// const bool bIsFromValid =
+		//     std::find(std::begin(convertOptions), std::end(convertOptions), from) !=
+		//     std::end(convertOptions);
+	}
 }
 
 int main(int argc, char* argv[]) {
@@ -160,6 +187,8 @@ int main(int argc, char* argv[]) {
 	argParser.registerOption(Args::Opts::Amount);
 	argParser.registerOption(Args::Opts::Prefix);
 	argParser.registerOption(Args::Opts::Start);
+	argParser.registerOption(Args::Opts::From);
+	argParser.registerOption(Args::Opts::To);
 
 	argParser.parse(argc, argv);
 
