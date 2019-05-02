@@ -8,4 +8,6 @@ std::string toLower(std::string str) {
 	               [](unsigned char c) { return std::tolower(c); });
 	return str;
 }
+
+bool hasWhitespaces(const std::string& str) { return str.find(' ') != std::string::npos; }
 } // namespace Utils

@@ -6,7 +6,7 @@
 #include <iostream>
 
 void ArgumentParser::registerFlag(const std::string& flag) {
-	if (!flag.empty()) {
+	if (!flag.empty() && !Utils::hasWhitespaces(flag)) {
 		m_flags[flag] = false;
 	}
 }
@@ -27,6 +27,14 @@ void ArgumentParser::registerOption(const std::string& option) {
 	if (!option.empty()) {
 		m_options[option] = "";
 	}
+}
+
+bool ArgumentParser::isFlagRegistered(const std::string& flag) const {
+	if (!flag.empty()) {
+		return m_flags.count(flag) == 1;
+	}
+
+	return false;
 }
 
 const std::string& ArgumentParser::getOption(const std::string& option) const {

@@ -1,9 +1,18 @@
+#include "argumentParser.h"
+
 #include <gtest/gtest.h>
 
-TEST(MyFirstTest, ASimpleTest) { EXPECT_TRUE(true); }
+TEST(ArgumentParser, RegisterFlag) {
+	ArgumentParser argParser;
 
-int Sum(int a, int b) { return a + b; }
+	EXPECT_FALSE(argParser.isFlagRegistered("rename"));
+	argParser.registerFlag("rename");
+	EXPECT_TRUE(argParser.isFlagRegistered("rename"));
+}
 
-TEST(SumTestSuite, TestSum) { EXPECT_EQ(Sum(2, 2), 4); }
+TEST(ArgumentParser, RegisterFlagWithWhiteSpace) {
+	ArgumentParser argParser;
 
-TEST(SumTestSuite, TestSum2) { EXPECT_EQ(Sum(2, 3), 4); }
+	argParser.registerFlag("any flag");
+	EXPECT_FALSE(argParser.isFlagRegistered("any flag"));
+}

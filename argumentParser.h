@@ -17,6 +17,7 @@ public:
 	bool getFlag(const std::string& flag) const;
 	void parse(int argc, char* argv[]);
 	void registerOption(const std::string& option);
+	bool isFlagRegistered(const std::string& flag) const;
 
 	template <typename T>
 	T getOptionAs(const std::string& option) const;

@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.0)
 set(FETCHCONTENT_QUIET OFF CACHE BOOL "disabled quiet mode to fetch content" FORCE)
 
-# set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
+set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 
 include(FetchContent)
 
@@ -13,7 +13,16 @@ FetchContent_Declare(
 
 FetchContent_MakeAvailable(googletest)
 
-add_executable(TestArgumentParser argumentParser.cpp)
+add_executable(TestArgumentParser 
+  argumentParser.cpp
+  "${CMAKE_SOURCE_DIR}/argumentParser.cpp"
+  "${CMAKE_SOURCE_DIR}/utils.cpp"
+)
+
+set_target_properties(ImageBatch PROPERTIES CXX_STANDARD 17)
+
+target_include_directories(TestArgumentParser PRIVATE ${CMAKE_SOURCE_DIR})
+
 target_link_libraries(TestArgumentParser PRIVATE gtest_main)
 
 
