@@ -24,7 +24,7 @@ bool ArgumentParser::getFlag(const std::string& flag) const {
 }
 
 void ArgumentParser::registerOption(const std::string& option) {
-	if (!option.empty()) {
+	if (!option.empty() && !Utils::hasWhitespaces(option)) {
 		m_options[option] = "";
 	}
 }
@@ -32,6 +32,14 @@ void ArgumentParser::registerOption(const std::string& option) {
 bool ArgumentParser::isFlagRegistered(const std::string& flag) const {
 	if (!flag.empty()) {
 		return m_flags.count(flag) == 1;
+	}
+
+	return false;
+}
+
+bool ArgumentParser::isOptionRegistered(const std::string& option) const {
+	if (!option.empty()) {
+		return m_options.count(option) == 1;
 	}
 
 	return false;
@@ -69,8 +77,8 @@ int ArgumentParser::getOptionAsInt(const std::string& option) const {
 	return -1;
 }
 
-void ArgumentParser::parse(int argc, char* argv[]) {
-	if (argc > 1) {
+void ArgumentParser::parse(int argc, const char* argv[]) {
+	if (argc > 1 && argv != nullptr) {
 		for (int i = 1; i < argc; i++) {
 			// std::string arg = argv[i];
 			std::string arg = Utils::toLower(argv[i]);
