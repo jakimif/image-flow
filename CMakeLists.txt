@@ -11,3 +11,8 @@ add_executable(ImageBatch main.cpp utils.cpp argumentParser.cpp)
 
 set_target_properties(ImageBatch PROPERTIES CXX_STANDARD 17)
 
+file(COPY ${CMAKE_SOURCE_DIR}/help.txt DESTINATION ${CMAKE_BINARY_DIR})
+
+add_subdirectory(test)
+
+
