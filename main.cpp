@@ -1,4 +1,5 @@
 #include "argumentParser.h"
+#include "mode.h"
 
 #include <array>
 #include <filesystem>

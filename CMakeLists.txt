@@ -7,7 +7,7 @@ project(ImageBatch VERSION 1.0)
 add_definitions(-std=c++17)
 
 
-add_executable(ImageBatch main.cpp utils.cpp argumentParser.cpp)
+add_executable(ImageBatch main.cpp utils.cpp argumentParser.cpp mode.cpp)
 
 set_target_properties(ImageBatch PROPERTIES CXX_STANDARD 17)
 
