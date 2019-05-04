@@ -7,12 +7,12 @@ project(ImageBatch VERSION 1.0)
 add_definitions(-std=c++17)
 
 
-add_executable(ImageBatch main.cpp utils.cpp argumentParser.cpp mode.cpp)
+add_executable(ImageBatch main.cpp utils.cpp argumentParser.cpp mode.cpp renamemode.cpp)
 
 set_target_properties(ImageBatch PROPERTIES CXX_STANDARD 17)
 
 file(COPY ${CMAKE_SOURCE_DIR}/help.txt DESTINATION ${CMAKE_BINARY_DIR})
 
-add_subdirectory(test)
+# add_subdirectory(test)
 
 

@@ -1,6 +1,6 @@
 #include "mode.h"
 
-Mode::Mode(const std::string& filter, std::string& folder) : m_filter{filter}, m_folder{folder} {}
+Mode::Mode(const std::string& filter, const std::string& folder) : m_filter{filter}, m_folder{folder} {}
 
 const std::string& Mode::getFilter() const { return m_filter; }
 

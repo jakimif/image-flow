@@ -68,6 +68,10 @@
     "deque": "cpp",
     "stack": "cpp",
     "set": "cpp",
-    "filesystem": "cpp"
+    "filesystem": "cpp",
+    "forward_list": "cpp",
+    "fstream": "cpp",
+    "list": "cpp",
+    "unordered_set": "cpp"
   }
 }

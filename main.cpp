@@ -1,5 +1,6 @@
 #include "argumentParser.h"
 #include "mode.h"
+#include "renamemode.h"
 
 #include <array>
 #include <filesystem>
@@ -201,6 +202,13 @@ void validateArguments(const ArgumentParser& argParser) {
 
 int main(int argc, char* argv[]) {
 	ArgumentParser argParser;
+
+	Mode* myMode = new RenameMode{"ffdsf", "zfsdf", "fsfsdf", 1};
+	myMode->run();
+
+	myMode->getModeName();
+
+	// return 0;
 
 	argParser.registerFlag(Args::Flags::Help);
 	argParser.registerFlag(Args::Flags::Rename);

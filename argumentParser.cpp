@@ -77,7 +77,7 @@ int ArgumentParser::getOptionAsInt(const std::string& option) const {
 	return -1;
 }
 
-void ArgumentParser::parse(int argc, const char* argv[]) {
+void ArgumentParser::parse(int argc, char* argv[]) {
 	if (argc > 1 && argv != nullptr) {
 		for (int i = 1; i < argc; i++) {
 			// std::string arg = argv[i];
