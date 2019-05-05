@@ -1,8 +1,8 @@
 #ifndef MODE_H
 #define MODE_H
 
+#include <iostream>
 #include <memory>
-#include <string>
 
 class Mode {
 public:
