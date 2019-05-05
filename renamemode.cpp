@@ -11,4 +11,4 @@ const std::string& RenameMode::getModeName() const {
 	return renameModeName;
 }
 
-void RenameMode::runImpl() { std::cout << getModeName() << " is running\n"; }
+void RenameMode::runImpl() { std::cout << getModeName() << "is running\n"; }
