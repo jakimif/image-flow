@@ -36,7 +36,7 @@ void RenameMode::runImpl() {
 	}
 
 	std::cout << getModeName() << "number of files found: " << filesToRename.size() << "\n";
-	std::cout << getModeName() << "numbers of skipped files: " << numSkippedFiles;
+	std::cout << getModeName() << "numbers of skipped files: " << numSkippedFiles << "\n";
 
 	int startNumber = m_start;
 	for (std::filesystem::path& filepath : filesToRename) {

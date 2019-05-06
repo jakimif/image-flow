@@ -4,6 +4,7 @@
 #include "renamemode.h"
 
 #include <array>
+#include <chrono>
 #include <filesystem>
 #include <fstream>
 #include <iostream>
@@ -14,7 +15,20 @@ const std::string& Mode::getFilter() const { return m_filter; }
 
 const std::string& Mode::getFolder() const { return m_folder; }
 
-void Mode::run() { runImpl(); }
+void Mode::run() {
+	using clock_t = std::chrono::high_resolution_clock;
+
+	clock_t::time_point startTime = clock_t::now();
+	runImpl();
+	clock_t::time_point endTime = clock_t::now();
+
+	clock_t::duration elapsedTime = endTime - startTime;
+
+	std::chrono::milliseconds elapsedTimeMilliseconds =
+	    std::chrono::duration_cast<std::chrono::milliseconds>(elapsedTime);
+
+	std::cout << getModeName() << "operation completed in " << elapsedTimeMilliseconds.count() << "ms\n";
+}
 
 const std::string& getInvalidChars() {
 	static const std::string invalidCaracteres = "\\/*?\"<>|"; // \/*?"<>|
