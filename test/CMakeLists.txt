@@ -1,9 +1,8 @@
 cmake_minimum_required(VERSION 3.0)
-set(FETCHCONTENT_QUIET OFF CACHE BOOL "disabled quiet mode to fetch content" FORCE)
 
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 
-include(FetchContent)
+
 
 FetchContent_Declare(
   googletest
