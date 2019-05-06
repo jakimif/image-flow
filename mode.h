@@ -1,8 +1,10 @@
 #ifndef MODE_H
 #define MODE_H
 
+#include <filesystem>
 #include <iostream>
 #include <memory>
+#include <vector>
 
 class Mode {
 public:
@@ -14,6 +16,7 @@ public:
 
 protected:
 	virtual void runImpl() = 0;
+	std::vector<std::filesystem::path> getFiles(const std::filesystem::path& extension = "") const;
 
 private:
 	std::string m_filter;

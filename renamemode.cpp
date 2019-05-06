@@ -20,23 +20,7 @@ void RenameMode::runImpl() {
 	std::cout << getModeName() << "Prefix: " << m_prefix << "\n";
 	std::cout << getModeName() << "Start: " << m_start << "\n";
 
-	std::vector<std::filesystem::path> filesToRename;
-	int numSkippedFiles = 0;
-
-	for (const std::filesystem::directory_entry& entry : std::filesystem::directory_iterator(getFolder())) {
-		const bool isFile = std::filesystem::is_regular_file(entry.path());
-		const bool matchFilter =
-		    getFilter().empty() || (entry.path().string().find(getFilter()) != std::string::npos);
-
-		if (isFile && matchFilter) {
-			filesToRename.push_back(entry.path());
-		} else {
-			numSkippedFiles++;
-		}
-	}
-
-	std::cout << getModeName() << "number of files found: " << filesToRename.size() << "\n";
-	std::cout << getModeName() << "numbers of skipped files: " << numSkippedFiles << "\n";
+	std::vector<std::filesystem::path> filesToRename = getFiles();
 
 	int startNumber = m_start;
 	for (std::filesystem::path& filepath : filesToRename) {

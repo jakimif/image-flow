@@ -16,13 +16,6 @@ BraceWrapping:
 BreakConstructorInitializers: AfterColon
 BreakStringLiterals: false
 ColumnLimit:     110
-IncludeCategories:
-  - Regex:           'otpch\.h"$'
-    Priority:        -1
-  - Regex:           '^".*"$'
-    Priority:        1
-  - Regex:           '^<.*>$'
-    Priority:        2
 IndentWidth:     4
 SpacesBeforeTrailingComments: 1
 Standard:        c++20

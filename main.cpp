@@ -1,7 +1,7 @@
+#include <iostream>
+
 #include "argumentParser.h"
 #include "mode.h"
-
-#include <iostream>
 
 int main(int argc, char* argv[]) {
 	ArgumentParser argParser;
