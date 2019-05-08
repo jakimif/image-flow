@@ -10,6 +10,7 @@
 #include "argumentParser.h"
 #include "convertmode.h"
 #include "renamemode.h"
+#include "resizemode.h"
 
 Mode::Mode(const std::string& filter, const std::string& folder) : m_filter{filter}, m_folder{folder} {}
 const std::string& Mode::getFilter() const { return m_filter; }
@@ -134,6 +135,9 @@ Mode* createMode(const ArgumentParser& argParser) {
 		if (filter.empty()) {
 			throw std::invalid_argument("filter cannot be blank in resize mode.");
 		}
+
+		Mode* ptr = new ResizeMode(filter, folder, width, height);
+		return ptr;
 	}
 
 	if (bScaleMode) {

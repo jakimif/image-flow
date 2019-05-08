@@ -1,13 +1,18 @@
 cmake_minimum_required(VERSION 3.0)
 project(ImageBatch VERSION 1.0)
 
-# set(CMAKE_CXX_STANDARD 14)
-# set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 add_definitions(-std=c++17)
 
-
-add_executable(ImageBatch main.cpp utils.cpp argumentParser.cpp mode.cpp renamemode.cpp convertmode.cpp)
+add_executable(ImageBatch 
+  main.cpp 
+  utils.cpp 
+  argumentParser.cpp 
+  mode.cpp 
+  renamemode.cpp 
+  convertmode.cpp 
+  resizemode.cpp
+)
 
 set_target_properties(ImageBatch PROPERTIES CXX_STANDARD 17)
 

@@ -1,58 +1,58 @@
-O PhotoBatch possui 4 modos de operação. Somente um modo pode estar ativo.
-Para ativar um modo escolha uma das seguintes flags:
+PhotoBatch has 4 operating modes. Only one mode can be active.
+To activate a mode choose one of the following flags:
 
---Rename  : Ativa o modo para renomear arquivos
---Convert : Ativa o modo para converter arquivos
---Resize  : Ativa o modo para redimensionar arquivos
---Scale   : Ativa o modo para escalar arquivos
+--rename : Enable file rename mode
+--convert : Enable mode to convert files
+--resize : Enable file resize mode
+--ccale : Enable file scaling mode
 
-As seguintes opções são comuns a todos os modos:
---Folder  : Especifica a pasta onde o PhotoBatch irá atuar
---Filter  : Especifica o filtro usado para selecionar arquivos
+The following options are common to all modes:
+--folder : Specifies the folder where PhotoBatch will work
+--filter : Specifies the filter used to select files
 
-Opções do modo Rename:
-No modo Rename, cada arquivo selecionado será renomeado para o formato
-<Prefix>_<N>.<ext>, onde <Prefix> e <N> são especificados através de opções.
-<ext> é a extensão do arquivo que permanece inalterada.
+Rename Mode Options:
+In Rename mode, each selected file will be renamed to the format
+<prefix>_<n>.<ext>, where <prefix> and <n> are specified via options.
+<ext> is the file extension which remains unchanged.
 
---Prefix=<Prefix> : Prefixo usado ao renomear os arquivos
---StartNumber=<N> : Número inicial a ser adicionado em cada arquivo que for renomeado
-
-
-Opções do modo Convert:
-No modo Convert, cada arquivo selecionado será convertido do formato <from> para
-o formato <to>. <from> e <to> não podem ser iguais. O nome do arquivo permanece
-inalterado.
-
---From=<jpg|png|tga> : Extensão de origem para conversão
---To=<jpg|png|tga>   : Extensão de destino para conversão
+--prefix=<prefix> : Prefix used when renaming files
+--start=<n> : Start number to add to each file that is renamed
 
 
-Opções do modo Resize:
-No modo Resize, cada arquivo selecionado será redimensionado para as dimensões
-especificadas nas seguintes opções. Note que N >= 1.
+Convert Mode Options:
+In Convert mode, each selected file will be converted from <from> format to
+the <to> format. <from> and <to> cannot be the same. The file name remains
+unchanged.
 
---Width=<N>  : Novo comprimento da imagem
---Height=<N> : Nova altura da imagem
+--from=<jpg|png|tga> : Source extension for conversion
+--to=<jpg|png|tga> : Target extension for conversion
 
-Opções do modo Scale:
 
-No modo Scale, cada arquivo selecionado será escalado uniformemente pelo
-fator especificado pelas seguintes opções. Note que N > 0 e será interpretado
-como um número em ponto flutuante.
+Resize Mode Options:
+In Resize mode, each selected file will be resized to the dimensions
+specified in the following options. Note that N >= 1.
 
---Amount=<N> : Fator de escala a ser aplicado em cada imagem selecionada.
+--width=<n> : New image length
+--height=<n> : New image height
 
-Exemplos de uso:
+Scale mode options:
 
-Renomear todos os arquivos da pasta "C:\Viagem" com a extensão ".png" para Viagem_N.png, onde N começa do 0
-PhotoBatch --Rename --Folder="C:\Viagem" --Filter=".png" --Prefix="Viagem_" --StartNumber=0
+In Scale mode, each selected file will be scaled uniformly by the
+factor specified by the following options. Note that N > 0 and will be interpreted
+as a floating point number.
 
-Redimensionar todos os arquivos na pasta "C:\Viagem" com a extensão ".jpg" para o tamanho 500x500
-PhotoBatch --Resize --Folder="C:\Viagem" --Filter=".jpg" --Width=500 --Height=500
+--amount=<n> : Scale factor to apply to each selected image.
 
-Converter todos os arquivos da pasta "C:\Viagem" de "png" para "jpg"
-PhotoBatch --Convert --Folder="C:\Viagem" --From=png --To=jpg
+Usage examples:
 
-Reduzir o pela metade o tamanho de todos os arquivos "png" da pasta "C:\Viagem"
-PhotoBatch --Scale --Folder="C:\Viagem" --Filter=".png" --Amount=0.5
+Rename all files in the folder "/Users/username/Documents/images" with the extension ".png" to travel_n.png, where N starts from 0
+PhotoBatch --rename --folder="/Users/username/Documents/images" --filter=".png" --prefix="travel_" --start=0
+
+Resize all files in the folder "/Users/username/Documents/images" with the extension ".jpg" to size 500x500
+PhotoBatch --resize --folder="/Users/username/Documents/images" --filter=".jpg" --width=500 --height=500
+
+Convert all files in the folder "/Users/username/Documents/images" from "png" to "jpg"
+PhotoBatch --convert --folder="/Users/username/Documents/images" --from=png --to=jpg
+
+Reduce by half the size of all "png" files in the "/Users/username/Documents/images" folder
+PhotoBatch --scale --Folder="/Users/username/Documents/images" --filter=".png" --amount=0.5
