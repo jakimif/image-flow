@@ -13,8 +13,8 @@ void ArgumentParser::getHelp() const {
 	if (std::filesystem::exists(filePath)) {
 		std::ifstream inputFile(filePath);
 		if (!inputFile.is_open()) {
-			std::cout << "Não foi possível abrir o arquivo." << std::endl;
-			throw std::invalid_argument("filter cannot be blank in scale mode.");
+			std::cout << "unable to open help file." << std::endl;
+			throw std::invalid_argument("unable to open help file.");
 		}
 
 		std::string line;
@@ -23,8 +23,8 @@ void ArgumentParser::getHelp() const {
 		}
 		inputFile.close();
 	} else {
-		std::cout << "O arquivo não existe." << std::endl;
-		throw std::invalid_argument("O arquivo não existe.");
+		std::cout << "the help file does not exist." << std::endl;
+		throw std::invalid_argument("the help file does not exist.");
 	}
 }
 

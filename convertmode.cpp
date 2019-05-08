@@ -1,12 +1,9 @@
 #include "convertmode.h"
 
-#define STB_IMAGE_IMPLEMENTATION
-#include <stb_image.h>
-#define STB_IMAGE_WRITE_IMPLEMENTATION
-#include <stb_image_write.h>
-
 #include <filesystem>
 #include <iostream>
+
+#include "image.h"
 
 std::string toString(ConvertMode::Format format) {
 	switch (format) {
@@ -47,37 +44,30 @@ void ConvertMode::runImpl() {
 	for (std::filesystem::path& filepath : filesToConvert) {
 		std::cout << getModeName() << filepath << "\n";
 
-		int width = 0;
-		int height = 0;
-		int numComp = 0;
 		const int numReqComp = 3;
 
-		// 0 ~ 255
-		if (unsigned char* data =
-		        stbi_load(filepath.string().c_str(), &width, &height, &numComp, numReqComp)) {
+		Image image(filepath, numReqComp);
+		if (image.isCorrectLoaded()) {
 			std::filesystem::path destFilepath = filepath;
 			destFilepath.replace_extension(toString(m_toFormat));
 
-			int writeResult = 0;
+			bool writeResult = false;
 			switch (m_toFormat) {
 				case Format::PNG:
-					writeResult =
-					    stbi_write_png(destFilepath.string().c_str(), width, height, numComp, data, 0);
+					writeResult = image.writePng(destFilepath);
 					break;
 				case Format::JPG:
-					writeResult =
-					    stbi_write_jpg(destFilepath.string().c_str(), width, height, numComp, data, 50);
+					writeResult = image.writeJpg(destFilepath, 100);
 					break;
 
 				default:
 					break;
 			}
 
-			if (writeResult == 0) {
+			if (!writeResult) {
 				std::cout << getModeName() << "error converting " << filepath << "\n";
 			}
 
-			stbi_image_free(data);
 		} else {
 			std::cout << getModeName() << "error loading " << filepath << "\n";
 		}

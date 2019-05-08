@@ -72,6 +72,17 @@
     "forward_list": "cpp",
     "fstream": "cpp",
     "list": "cpp",
-    "unordered_set": "cpp"
+    "unordered_set": "cpp",
+    "thread": "cpp",
+    "any": "cpp",
+    "condition_variable": "cpp",
+    "csignal": "cpp",
+    "regex": "cpp",
+    "span": "cpp",
+    "valarray": "cpp",
+    "numeric": "cpp",
+    "random": "cpp",
+    "ranges": "cpp",
+    "future": "cpp"
   }
 }

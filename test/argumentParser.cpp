@@ -1,7 +1,8 @@
 #include "argumentParser.h"
 
-#include <array>
 #include <gtest/gtest.h>
+
+#include <array>
 
 TEST(ArgumentParser, RegisterFlag) {
 	ArgumentParser argParser;
@@ -43,7 +44,15 @@ TEST(ArgumentParser, Parse) {
 	argParser.registerOption("number");
 	argParser.registerOption("float");
 
-	argParser.parse(args.size(), args.data());
+	char argv0[] = "TestArgumentParser";
+	char argv1[] = "--flag";
+	char argv2[] = "--string=aabbcc";
+	char argv3[] = "--number=48";
+	char argv4[] = "--float=3.8";
+
+	char* argv[] = {argv0, argv1, argv2, argv3, argv4};
+
+	argParser.parse(args.size(), argv);
 
 	EXPECT_FALSE(argParser.getFlag("unregistered_flag"));
 	EXPECT_TRUE(argParser.getFlag("flag"));

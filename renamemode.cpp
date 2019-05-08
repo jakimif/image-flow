@@ -28,7 +28,6 @@ void RenameMode::runImpl() {
 		const std::string newFileName = m_prefix + std::to_string(startNumber++) + extension.string();
 
 		try {
-			// rename
 			std::filesystem::path newFilePath = filepath;
 			newFilePath.replace_filename(newFileName);
 			std::filesystem::rename(filepath, newFilePath);

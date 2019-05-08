@@ -1,13 +1,13 @@
-PhotoBatch has 4 operating modes. Only one mode can be active.
+ImageFlow has 4 operating modes. Only one mode can be active.
 To activate a mode choose one of the following flags:
 
 --rename : Enable file rename mode
 --convert : Enable mode to convert files
 --resize : Enable file resize mode
---ccale : Enable file scaling mode
+--scale : Enable file scaling mode
 
 The following options are common to all modes:
---folder : Specifies the folder where PhotoBatch will work
+--folder : Specifies the folder where ImageFlow will work
 --filter : Specifies the filter used to select files
 
 Rename Mode Options:
@@ -46,13 +46,13 @@ as a floating point number.
 Usage examples:
 
 Rename all files in the folder "/Users/username/Documents/images" with the extension ".png" to travel_n.png, where N starts from 0
-PhotoBatch --rename --folder="/Users/username/Documents/images" --filter=".png" --prefix="travel_" --start=0
+ImageFlow --rename --folder="/Users/username/Documents/images" --filter=".png" --prefix="travel_" --start=0
 
 Resize all files in the folder "/Users/username/Documents/images" with the extension ".jpg" to size 500x500
-PhotoBatch --resize --folder="/Users/username/Documents/images" --filter=".jpg" --width=500 --height=500
+ImageFlow --resize --folder="/Users/username/Documents/images" --filter=".jpg" --width=500 --height=500
 
 Convert all files in the folder "/Users/username/Documents/images" from "png" to "jpg"
-PhotoBatch --convert --folder="/Users/username/Documents/images" --from=png --to=jpg
+ImageFlow --convert --folder="/Users/username/Documents/images" --from=png --to=jpg
 
 Reduce by half the size of all "png" files in the "/Users/username/Documents/images" folder
-PhotoBatch --scale --Folder="/Users/username/Documents/images" --filter=".png" --amount=0.5
+ImageFlow --scale --folder="/Users/username/Documents/images" --filter=".png" --amount=0.5
