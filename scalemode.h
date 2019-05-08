@@ -15,4 +15,4 @@ private:
 	float m_scaleFactor;
 };
 
-#endif;
+#endif
