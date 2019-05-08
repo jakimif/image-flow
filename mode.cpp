@@ -11,6 +11,7 @@
 #include "convertmode.h"
 #include "renamemode.h"
 #include "resizemode.h"
+#include "scalemode.h"
 
 Mode::Mode(const std::string& filter, const std::string& folder) : m_filter{filter}, m_folder{folder} {}
 const std::string& Mode::getFilter() const { return m_filter; }
@@ -156,6 +157,9 @@ Mode* createMode(const ArgumentParser& argParser) {
 		if (filter.empty()) {
 			throw std::invalid_argument("filter cannot be blank in scale mode.");
 		}
+
+		Mode* ptr = new ScaleMode(filter, folder, amount);
+		return ptr;
 	}
 
 	if (bRenameMode) {

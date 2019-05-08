@@ -12,6 +12,7 @@ add_executable(ImageBatch
   renamemode.cpp 
   convertmode.cpp 
   resizemode.cpp
+  scalemode.cpp
 )
 
 set_target_properties(ImageBatch PROPERTIES CXX_STANDARD 17)
