@@ -19,6 +19,7 @@ public:
 	void registerOption(const std::string& option);
 	bool isFlagRegistered(const std::string& flag) const;
 	bool isOptionRegistered(const std::string& option) const;
+	void getHelp() const;
 
 	template <typename T>
 	T getOptionAs(const std::string& option) const;

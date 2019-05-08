@@ -1,9 +1,32 @@
 #include "argumentParser.h"
 
+#include <algorithm>
+#include <filesystem>
+#include <fstream>
+#include <iostream>
+
 #include "utils.h"
 
-#include <algorithm>
-#include <iostream>
+void ArgumentParser::getHelp() const {
+	std::filesystem::path filePath("./help.txt");
+
+	if (std::filesystem::exists(filePath)) {
+		std::ifstream inputFile(filePath);
+		if (!inputFile.is_open()) {
+			std::cout << "Não foi possível abrir o arquivo." << std::endl;
+			throw std::invalid_argument("filter cannot be blank in scale mode.");
+		}
+
+		std::string line;
+		while (std::getline(inputFile, line)) {
+			std::cout << line << std::endl;
+		}
+		inputFile.close();
+	} else {
+		std::cout << "O arquivo não existe." << std::endl;
+		throw std::invalid_argument("O arquivo não existe.");
+	}
+}
 
 void ArgumentParser::registerFlag(const std::string& flag) {
 	if (!flag.empty() && !Utils::hasWhitespaces(flag)) {
@@ -80,16 +103,12 @@ int ArgumentParser::getOptionAsInt(const std::string& option) const {
 void ArgumentParser::parse(int argc, char* argv[]) {
 	if (argc > 1 && argv != nullptr) {
 		for (int i = 1; i < argc; i++) {
-			// std::string arg = argv[i];
 			std::string arg = Utils::toLower(argv[i]);
 
 			if (arg.length() >= 3) {
-				// prefix --
 				if (arg[0] == '-' && arg[1] == '-') {
-					// remover os -- da string (flag)
 					arg = arg.substr(2);
 					if (arg.find_first_of('=') != std::string::npos) {
-						// Isso é uma opção
 						const size_t equalsSignPos = arg.find('=');
 						if (equalsSignPos != std::string::npos) {
 							std::string optionName = arg.substr(0, equalsSignPos);
@@ -101,10 +120,8 @@ void ArgumentParser::parse(int argc, char* argv[]) {
 							}
 						}
 					} else {
-						// é uma flag
 						auto flagIt = m_flags.find(arg);
 						if (flagIt != std::end(m_flags)) {
-							// Achamos a flag registrada
 							flagIt->second = true;
 						}
 					}

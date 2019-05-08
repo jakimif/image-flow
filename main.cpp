@@ -2,6 +2,7 @@
 
 #include "argumentParser.h"
 #include "mode.h"
+#include "modesfactory.h"
 
 int main(int argc, char* argv[]) {
 	ArgumentParser argParser;

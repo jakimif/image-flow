@@ -44,8 +44,4 @@ static constexpr const char* To = "to";
 } // namespace Opts
 } // namespace Args
 
-class ArgumentParser;
-
-Mode* createMode(const ArgumentParser& argParser);
-
 #endif

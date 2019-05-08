@@ -16,4 +16,18 @@ std::string toUpper(std::string str) {
 }
 
 bool hasWhitespaces(const std::string& str) { return str.find(' ') != std::string::npos; }
+
+const std::string& getInvalidChars() {
+	static const std::string invalidCaracteres = "\\/*?\"<>|"; // \/*?"<>|
+	return invalidCaracteres;
+}
+
+bool hasInvalidChars(const std::string& str) {
+	if (str.find_first_of(getInvalidChars()) != std::string::npos) {
+		return true;
+	}
+
+	return false;
+}
+
 } // namespace Utils
