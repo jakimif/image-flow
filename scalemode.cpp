@@ -3,6 +3,7 @@
 #include <iostream>
 
 #include "image.h"
+#include "threadpool.h"
 
 ScaleMode::ScaleMode(const std::string& filter, const std::string& folder, float scaleFactor) :
     ResizeMode{filter, folder}, m_scaleFactor(scaleFactor) {}
@@ -18,18 +19,21 @@ void ScaleMode::runImpl() {
 	std::cout << getModeName() << "Filter: " << getFilter() << "\n";
 	std::cout << getModeName() << "ScaleFactor: " << m_scaleFactor << "\n";
 
+	ThreadPool pool;
+	Image image;
+
 	for (std::filesystem::path& filepath : getFiles()) {
-		std::cout << getModeName() << "scaling " << filepath << "\n";
-		int width = 0;
-		int height = 0;
-		int numComp = 0;
+		pool.enqueue([this, filepath, &image]() {
+			std::cout << getModeName() << "scaling " << filepath << "\n";
+			int width = 0;
+			int height = 0;
+			int numComp = 0;
 
-		Image image;
-		image.getInfo(filepath, width, height, numComp);
+			image.getInfo(filepath, width, height, numComp);
 
-		const int newWidth = static_cast<int>(width * m_scaleFactor);
-		const int newHeight = static_cast<int>(height * m_scaleFactor);
-
-		resizeImage(filepath, newWidth, newHeight);
+			const int newWidth = static_cast<int>(width * m_scaleFactor);
+			const int newHeight = static_cast<int>(height * m_scaleFactor);
+			resizeImage(filepath, newWidth, newHeight);
+		});
 	}
 }

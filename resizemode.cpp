@@ -1,6 +1,7 @@
 #include "resizemode.h"
 
 #include "image.h"
+#include "threadpool.h"
 
 ResizeMode::ResizeMode(const std::string& filter, const std::string& folder, int width, int height) :
     Mode{filter, folder}, m_width(width), m_height(height) {}
@@ -17,10 +18,13 @@ void ResizeMode::runImpl() {
 	std::cout << getModeName() << "Width: " << m_width << "\n";
 	std::cout << getModeName() << "Height: " << m_height << "\n";
 
+	ThreadPool pool;
 	if (m_width > 0 && m_height > 0) {
 		for (std::filesystem::path& filepath : getFiles()) {
-			std::cout << getModeName() << "resizing " << filepath << "\n";
-			resizeImage(filepath, m_width, m_height);
+			pool.enqueue([this, filepath]() {
+				std::cout << getModeName() << "resizing " << filepath << "\n";
+				resizeImage(filepath, m_width, m_height);
+			});
 		}
 	}
 }

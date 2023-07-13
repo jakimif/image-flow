@@ -43,9 +43,10 @@ bool Image::writePng(std::filesystem::path destFilepath, const ImageData* imageD
 	}
 
 	if (outputData.empty()) {
-		stbi_write_png(destFilepath.string().c_str(), m_width, m_height, m_numComp, m_data, 0);
+		writeResult = stbi_write_png(destFilepath.string().c_str(), m_width, m_height, m_numComp, m_data, 0);
 	} else {
-		stbi_write_png(destFilepath.string().c_str(), m_width, m_height, m_numComp, outputData.data(), 0);
+		writeResult =
+		    stbi_write_png(destFilepath.string().c_str(), m_width, m_height, m_numComp, outputData.data(), 0);
 	}
 
 	return writeResult != 0;

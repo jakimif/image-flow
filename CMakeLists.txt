@@ -5,6 +5,7 @@ add_definitions(-std=c++17)
 
 add_executable(ImageFlow 
   main.cpp 
+  threadpool.cpp
   utils.cpp 
   argumentParser.cpp 
   mode.cpp 

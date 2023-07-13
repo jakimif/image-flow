@@ -4,6 +4,7 @@
 #include <iostream>
 
 #include "image.h"
+#include "threadpool.h"
 
 std::string toString(ConvertMode::Format format) {
 	switch (format) {
@@ -41,35 +42,39 @@ void ConvertMode::runImpl() {
 
 	std::vector<std::filesystem::path> filesToConvert = getFiles(fromExtension);
 
+	ThreadPool pool;
+
 	for (std::filesystem::path& filepath : filesToConvert) {
-		std::cout << getModeName() << filepath << "\n";
+		pool.enqueue([this, filepath]() {
+			std::cout << getModeName() << filepath << "\n";
 
-		const int numReqComp = 3;
+			const int numReqComp = 3;
 
-		Image image(filepath, numReqComp);
-		if (image.isCorrectLoaded()) {
-			std::filesystem::path destFilepath = filepath;
-			destFilepath.replace_extension(toString(m_toFormat));
+			Image image(filepath, numReqComp);
+			if (image.isCorrectLoaded()) {
+				std::filesystem::path destFilepath = filepath;
+				destFilepath.replace_extension(toString(m_toFormat));
 
-			bool writeResult = false;
-			switch (m_toFormat) {
-				case Format::PNG:
-					writeResult = image.writePng(destFilepath);
-					break;
-				case Format::JPG:
-					writeResult = image.writeJpg(destFilepath, 100);
-					break;
+				bool writeResult = false;
+				switch (m_toFormat) {
+					case Format::PNG:
+						writeResult = image.writePng(destFilepath);
+						break;
+					case Format::JPG:
+						writeResult = image.writeJpg(destFilepath, 100);
+						break;
 
-				default:
-					break;
+					default:
+						break;
+				}
+
+				if (!writeResult) {
+					std::cout << getModeName() << "error converting " << filepath << "\n";
+				}
+
+			} else {
+				std::cout << getModeName() << "error loading " << filepath << "\n";
 			}
-
-			if (!writeResult) {
-				std::cout << getModeName() << "error converting " << filepath << "\n";
-			}
-
-		} else {
-			std::cout << getModeName() << "error loading " << filepath << "\n";
-		}
+		});
 	}
 }
